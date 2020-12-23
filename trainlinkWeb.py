@@ -82,19 +82,23 @@ class web:
         await self.register(websocket)
         try:
             await self.stateEvent(websocket)
-            async for message in websocket:
-                data = json.loads(message)
-                if data["class"] == "cabControl":
-                    self.cabControl(data)
-                    await self.notifyState(websocket)
-                elif data["class"] == "directCommand":
-                    await self.directCommand(data["command"])
-                elif data["class"] == "power":
-                    await self.setPower(data["state"])
-                    await self.notifyState(websocket)
-                elif data["class"] == "cabFunction":
-                    await self.cabFunction(data)
-                    await self.notifyState(websocket)
+            try:
+                async for message in websocket:
+                    data = json.loads(message)
+                    if data["class"] == "cabControl":
+                        self.cabControl(data)
+                        await self.notifyState(websocket)
+                    elif data["class"] == "directCommand":
+                        await self.directCommand(data["command"])
+                    elif data["class"] == "power":
+                        await self.setPower(data["state"])
+                        await self.notifyState(websocket)
+                    elif data["class"] == "cabFunction":
+                        await self.cabFunction(data)
+                        await self.notifyState(websocket)
+            except websockets.exceptions.ConnectionClosedError:
+                if debug:
+                    print("websocket closed")
         finally:
             await self.unregister(websocket)
 
