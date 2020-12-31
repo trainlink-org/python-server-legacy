@@ -8,8 +8,27 @@ This is an API to intergrate with a DCC++ (or DCC++ EX) BaseStation. It provides
 This repository contains the Python version of the server for TrainLink. Due to being written in Python, this version of the server can be run on most OSes, on most architectures (Raspberry Pi included!)
 
 ## Dependancies
+Firstly, you will need Python 3.6 or newer installed (I am currently using Python 3.8). You can check what version is installed (if any) using the command `python3 --version`. If you are using linux, it is probably pre-installed. Otherwise, you will need to visit the Python website to download and install it.
+
+The server application has these Python depencancies:
+
+* [pyserial](https://github.com/pyserial/pyserial) - Provides serial communication with the basestation
+* [websockets](https://github.com/aaugustin/websockets) - Allows the client to communicate with the server
+* [xmltodict](https://github.com/martinblech/xmltodict) - Parses the `config.xml` file
+
+These can all be easily installed using Pip by running the following command:
+```powershell
+$ pip3 install -r requirements.txt
+```
 
 ## Installation
+It's as easy as 1,2,3!
+
+1. Download the source code file (tar.gz or zip) from the latest release (or click [here](https://github.com/trainlink-org/python-server/releases/latest))
+1. Check all the dependancies are installed (see above) and copy `config/config.default.xml` to `config/config.xml`
+1. Run `server.py`
+
+Now the TrainLink server will be running on your PC! Just point a client at the server and you are ready to go! For more detailed instructions please see the [readthedocs page](https://trainlink-api.readthedocs.io/en/stable/getting-started.html)
 
 ## Branches and releases
 Releases are numbered according to the [Semantic Numbering](https://semver.org/) scheme. Therefore, releases will be numbered as following:
@@ -37,4 +56,4 @@ For more information please see the following:
 
 Many thanks,  
 Matt  
-\- November 2020
+\- January 2021
