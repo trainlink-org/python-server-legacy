@@ -25,4 +25,5 @@ def obtainAddress(cabAddress, cabID):
             address = cabID[cabAddress]
         except KeyError:
             print("Bad key")
+            address = None
     return address
