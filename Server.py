@@ -24,7 +24,10 @@ def main(mode="normal"):
         import threading, time, asyncio
 
         # Sets the location of the config file
-        configFile = 'config/config.xml'
+        if mode == "test":
+            configFile = 'config/config.default.xml'
+        else:
+            configFile = 'config/config.xml'
 
         # Continues the main logic after the server starts
         def mainLogic():
@@ -77,7 +80,7 @@ def main(mode="normal"):
         # Starts the server
         server.start(mode)
 
-    except:
+    except KeyboardInterrupt:
         killThread = True
         return 1
 
