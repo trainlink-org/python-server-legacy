@@ -11,4 +11,4 @@ def test_serial():
     asyncio.get_event_loop().run_until_complete(serial.setPower('not a int'))
     asyncio.get_event_loop().run_until_complete(serial.setFunction(3,functionStates=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
     serial.readInLoop()
-    assert serial.getLatest() != False
+    assert serial.getLatest() == False
