@@ -15,7 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>
 '''
-def main():
+def main(mode="normal"):
     
     try:
         # Imports required trainlink modules
@@ -27,7 +27,7 @@ def main():
         configFile = 'config/config.xml'
 
         # Continues the main logic after the server starts
-        def main():
+        def mainLogic():
             serialMsg = serialUtils.startComms()
             if server.debug:
                 print(serialMsg)
@@ -70,12 +70,12 @@ def main():
 
         # Creates a main thread - the server can't run in a second thread, so the main logic has to
         killThread = False
-        mainThread = threading.Thread(target=main)
+        mainThread = threading.Thread(target=mainLogic)
         mainThread.start()
 
 
         # Starts the server
-        server.start()
+        server.start(mode)
 
     except:
         killThread = True

@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 '''
 
 #imports the sub-modules
-from logging import debug
+from logging import debug, raiseExceptions
 import webUtils as utils
 #imports the required external modules
 import websockets, asyncio, json
@@ -35,6 +35,7 @@ class web:
     port = ""
     debug = False
     websocket = None
+    mode = "normal"
 
     # Arrays used for storing runtime data
     power = 0
@@ -64,7 +65,8 @@ class web:
                 self.cabFunctions[cabIDxml[cab]].append(0)
         self.cabFunctions['1'].append(0)
 
-    def start(self):
+    def start(self, mode):
+        self.mode = mode
         print("Starting server at %s:%s" %(self.address,self.port))
         if self.debug == "True":
             print("Debug enabled")
@@ -78,6 +80,8 @@ class web:
                 await self.stateEvent(user)
     
     async def main (self, websocket, path):
+        if self.mode == "test":
+            raise KeyboardInterrupt
         self.websocket = websocket
         await self.register(websocket)
         try:
