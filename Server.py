@@ -18,7 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 from logging import ERROR
 
 
-def main(mode="normal"):
+def main(mode="normal", configFile=None):
     
     try:
         # Imports required trainlink modules
@@ -27,10 +27,11 @@ def main(mode="normal"):
         import threading, time, asyncio
 
         # Sets the location of the config file
-        if mode == "test":
-            configFile = 'config/config.default.xml'
-        else:
-            configFile = 'config/config.xml'
+        if configFile == None:
+            if mode == "test":
+                configFile = 'config/config.default.xml'
+            else:
+                configFile = 'config/config.xml'
 
         # Continues the main logic after the server starts
         def mainLogic():
