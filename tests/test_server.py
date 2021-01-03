@@ -1,3 +1,3 @@
 import Server
 
-Server.main("test")
+assert Server.main("test") == 0

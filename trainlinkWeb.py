@@ -71,6 +71,9 @@ class web:
         if self.debug == "True":
             print("Debug enabled")
         start_server = websockets.serve(self.main, self.address, self.port)
+        if self.mode == "test":
+            print("test mode")
+            raise KeyboardInterrupt
         asyncio.get_event_loop().run_until_complete(start_server)
         asyncio.get_event_loop().run_forever()
     
@@ -80,8 +83,6 @@ class web:
                 await self.stateEvent(user)
     
     async def main (self, websocket, path):
-        if self.mode == "test":
-            raise KeyboardInterrupt
         self.websocket = websocket
         await self.register(websocket)
         try:

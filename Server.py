@@ -15,6 +15,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>
 '''
+from logging import ERROR
+
+
 def main(mode="normal"):
     
     try:
@@ -82,11 +85,13 @@ def main(mode="normal"):
 
     except KeyboardInterrupt:
         killThread = True
+        return 0
+    except:
         return 1
 
 def kill():
     raise KeyboardInterrupt
 
 if __name__ == "__main__":
-    var = main()
+    var = main("test")
     print(var)
