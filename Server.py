@@ -89,9 +89,6 @@ def main(mode="normal"):
     except:
         return 1
 
-def kill():
-    raise KeyboardInterrupt
-
 if __name__ == "__main__":
     var = main("test")
     print(var)

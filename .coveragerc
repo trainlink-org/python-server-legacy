@@ -1,3 +1,8 @@
 [report]
 omit = /home/travis/virtualenv/*
     tests/*
+
+exlude_lines = 
+    pragma: no cover
+    if __name__ == "__main__":
+    except:
