@@ -91,5 +91,5 @@ def main(mode="normal", configFile=None):
         return 1
 
 if __name__ == "__main__":
-    var = main("test")
+    var = main()
     print(var)
