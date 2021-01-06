@@ -34,7 +34,9 @@ class comms:
             self.ser.close()
             self.ser.open()
         except:
+            '''
             print("Using Emulator")
+            '''
             self.emulator = True
 
     def updateCabs(self, cabSpeeds, cabDirections):
@@ -63,9 +65,13 @@ class comms:
             elif powerState == 0:
                 self.write(b'<0>')
             else:
+                '''
                 print("Invalid power state")
+                '''
         except ValueError:
+            '''
             print("Invalid power state")
+            '''
     
     async def setFunction(self, cab, *args, **kwargs):
         functionStates = kwargs.get('functionStates', None)
