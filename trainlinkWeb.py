@@ -17,11 +17,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 '''
 
 #imports the sub-modules
-from logging import debug, raiseExceptions
 import webUtils as utils
 #imports the required external modules
 import websockets, asyncio, json
-from pyaddons import logger
 
 
 

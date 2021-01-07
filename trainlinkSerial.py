@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 '''
 
 import trainlinkUtils
-import serial, asyncio
+import serial
 
 class comms:
     '''Manages the serial communications of trainlink'''

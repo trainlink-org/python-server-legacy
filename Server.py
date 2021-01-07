@@ -24,7 +24,7 @@ def main(mode="normal", configFile=None):
         # Imports required trainlink modules
         import trainlinkSerial, trainlinkWeb, trainlinkUtils
         # Imports required external modules
-        import threading, time, asyncio
+        import threading, time
         from pyaddons import logger
 
 
