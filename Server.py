@@ -73,6 +73,8 @@ def main(mode="normal", configFile=None):
         check = xmlUtils.loadXml()
         if check == 1:
             print("FileLoad failed")
+            if mode == "test":
+                return 1
 
         # Gets the cabs list from the xml
         cabs = xmlUtils.listCabs()
@@ -92,7 +94,7 @@ def main(mode="normal", configFile=None):
 
         logfile = logger("trainlinkServer.log",default=defaultCode, debug=debug)
 
-        serialUtils = trainlinkSerial.comms(config["serialPort"])
+        serialUtils = trainlinkSerial.comms(config["serialPort"],logfile)
         # Creates an instance of the trainlinkWeb library
         server = trainlinkWeb.web(config['ipAddress'], config["port"], logfile, config["debug"], cabs, serialUtils)
 
@@ -108,9 +110,7 @@ def main(mode="normal", configFile=None):
     except KeyboardInterrupt:
         killThread = True
         return 0
-    #except:
-        return 1
-
+    
 if __name__ == "__main__":
     var = main()
     print(var)
