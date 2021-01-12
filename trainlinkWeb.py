@@ -17,7 +17,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 '''
 
 #imports the sub-modules
-from logging import debug
 import webUtils as utils
 #imports the required external modules
 import websockets, asyncio, json
@@ -33,8 +32,9 @@ class web:
     # The variables needed for configuration
     address = ""
     port = ""
-    debug = False
     websocket = None
+    mode = "normal"
+    debug = False
 
     # Arrays used for storing runtime data
     power = 0
@@ -44,14 +44,16 @@ class web:
     cabDirections = {}
     #cabFunctions = {"1": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "2":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
     cabFunctions = {}
+    logfile = None
     
     # Assigns config variables from arguments
-    def __init__ (self, address, port, debug, cabIDxml, serialUtils):
+    def __init__ (self, address, port, logfile, debug, cabIDxml, serialUtils):
         self.serialUtils = serialUtils
+        self.debug =debug
         self.address = address
         self.port = port
         self.cabID = cabIDxml
-        self.debug = debug.capitalize()
+        self.logfile = logfile
         functionFormat = []
         for i in range(0,29):
             functionFormat.append(0)
@@ -64,11 +66,25 @@ class web:
                 self.cabFunctions[cabIDxml[cab]].append(0)
         self.cabFunctions['1'].append(0)
 
-    def start(self):
+    def start(self, mode):
+        self.mode = mode
+        logfile = self.logfile
+
+        logfile.log("Starting server at %s:%s" %(self.address,self.port))
+        logfile.log("Debug enabled", "d")
+        '''
         print("Starting server at %s:%s" %(self.address,self.port))
+
         if self.debug == "True":
             print("Debug enabled")
+        '''
         start_server = websockets.serve(self.main, self.address, self.port)
+        if self.mode == "test":
+            logfile.log("Test mode", "dw")
+            '''
+            print("test mode")
+            '''
+            raise KeyboardInterrupt
         asyncio.get_event_loop().run_until_complete(start_server)
         asyncio.get_event_loop().run_forever()
     
@@ -78,6 +94,7 @@ class web:
                 await self.stateEvent(user)
     
     async def main (self, websocket, path):
+        logfile = self.logfile
         self.websocket = websocket
         await self.register(websocket)
         try:
@@ -97,8 +114,11 @@ class web:
                         await self.cabFunction(data)
                         await self.notifyState(websocket)
             except websockets.exceptions.ConnectionClosedError:
+                logfile.log("Websocket closed", "d")
+                '''
                 if debug:
                     print("websocket closed")
+                '''
         finally:
             await self.unregister(websocket)
 
@@ -115,6 +135,7 @@ class web:
         await websocket.send(json.dumps({"type": "state", "updateType": "power", "state": self.power}))
     
     def cabControl(self, data):
+        logfile = self.logfile
         try:
             if data["action"] == "setSpeed":
                 address = utils.obtainAddress(data["cabAddress"], self.cabID)
@@ -129,8 +150,11 @@ class web:
                 self.cabSpeeds[address] = "-1"
                 self.cabDirections[address] = "0"
         except UnboundLocalError:
+            logfile.log("Unknowen Address!", "ed")
+            '''
             if self.debug:
                 print("Unknowen Address!")
+            '''
 
     async def directCommand(self, packet):
         await self.serialUtils.directCommand(packet)
@@ -140,6 +164,7 @@ class web:
         self.power = powerState
 
     async def cabFunction(self, data):
+        logfile = self.logfile
         try:
             address = utils.obtainAddress(data["cab"], self.cabID)
             if data["state"] != -1:
@@ -154,8 +179,11 @@ class web:
             else:
                 await self.serialUtils.setFunction(address, function=data["func"], state=data["state"])
         except KeyError:
+            logfile.log("Received bad data! (Probably a cab address)", "de")
+            '''
             if debug:
                 print("Received bad data! (Probably a cab address)")
+            '''
         
 
     def update(self):

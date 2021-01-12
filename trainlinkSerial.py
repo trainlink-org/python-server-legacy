@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 '''
 
 import trainlinkUtils
-import serial, asyncio
+import serial
 
 class comms:
     '''Manages the serial communications of trainlink'''
@@ -27,14 +27,19 @@ class comms:
     line = ""
     oldLine = ""
     emulator = False
+    logfile = None
 
-    def __init__(self, port):
+    def __init__(self, port, logfile):
+        self.logfile = logfile
         try:
             self.ser = serial.Serial(baudrate=115200, port=port, timeout=2)
             self.ser.close()
             self.ser.open()
         except:
+            logfile.log("Using Emulator")
+            '''
             print("Using Emulator")
+            '''
             self.emulator = True
 
     def updateCabs(self, cabSpeeds, cabDirections):
@@ -56,6 +61,7 @@ class comms:
         self.write(packet)
         
     async def setPower(self, powerState):
+        logfile = self.logfile
         try:
             powerState = int(powerState)
             if powerState == 1:
@@ -63,9 +69,15 @@ class comms:
             elif powerState == 0:
                 self.write(b'<0>')
             else:
+                logfile.log("Invalid power state", "w")
+                '''
                 print("Invalid power state")
+                '''
         except ValueError:
+            logfile.log("Invalid power state", "w")
+            '''
             print("Invalid power state")
+            '''
     
     async def setFunction(self, cab, *args, **kwargs):
         functionStates = kwargs.get('functionStates', None)

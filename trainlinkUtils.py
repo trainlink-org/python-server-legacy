@@ -55,6 +55,7 @@ class xmlUtils:
         config["port"] = self.xmlFile['config']['server']['port']
         config["serialPort"] = self.xmlFile['config']['server']['serialPort']
         config["debug"] = self.xmlFile['config']['debug']['enableDebug']
+        config["logging"] = self.xmlFile['config']['debug']['enableLogging']
         if config["ipAddress"] == "auto":
             config["ipAddress"] = "0.0.0.0"
         elif config["ipAddress"] == "local":
