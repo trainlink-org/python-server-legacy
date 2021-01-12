@@ -1,1 +1,5 @@
 __pycache__/
+config/config.xml
+venv/
+.vscode/
+*.log
