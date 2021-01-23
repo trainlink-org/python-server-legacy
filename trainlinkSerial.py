@@ -42,12 +42,28 @@ class comms:
             '''
             self.emulator = True
 
+    '''
     def updateCabs(self, cabSpeeds, cabDirections):
         for cab in cabSpeeds:
             address = int(cab)
             speed = int(cabSpeeds[cab])
             direction = int(cabDirections[cab])
             packet = b'<t 1 %d %d %d>'%(address, speed, direction)
+            try:
+                if packet != self.prevPacket[address]:
+                    self.write(packet)
+                    self.prevPacket[address] = packet
+            except KeyError:
+                self.write(packet)
+                self.prevPacket[address] = packet
+    '''
+
+    def updateCabs(self, cabs):
+        for cab in cabs:
+            address = cabs[cab].getAddress()
+            speed = cabs[cab].getSpeed()
+            direction = cabs[cab].getDirection()
+            packet = b'<t 1 %d %d %d>'%(int(address), int(speed), int(direction))
             try:
                 if packet != self.prevPacket[address]:
                     self.write(packet)

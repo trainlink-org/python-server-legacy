@@ -48,7 +48,7 @@ def main(mode="normal", configFile=None):
             while True:
                 if killThread:
                     break
-                serialUtils.updateCabs(server.cabSpeeds, server.cabDirections)
+                serialUtils.updateCabs(server.cabs)
                 readSerial = serialUtils.getLatest()
                 if readSerial != False:
                     if readSerial == "<p2>":
