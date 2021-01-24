@@ -1,11 +1,11 @@
 import trainlinkSerial
-from trainlinkObjects import cab
+import trainlinkObjects
 import asyncio, pyaddons
 
 def test_serial():
     logfile = pyaddons.logger()
     serial = trainlinkSerial.comms('/dev/ttyNonexistant',logfile)
-    serial.updateCabs(cab("train",1))
+    serial.updateCabs(trainlinkObjects.cab("train",1))
 #    serial.updateCabs([0,0],[1,1])
     asyncio.get_event_loop().run_until_complete(serial.directCommand("<nonexistant>"))
     asyncio.get_event_loop().run_until_complete(serial.setPower(0))
