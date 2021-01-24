@@ -11,8 +11,9 @@ class cab:
     def __init__(self, *args, **kwargs):
         self.name = kwargs.get("name", None)
         self.address = kwargs.get("address", 3)
-        for i in range(28):
-            self.functions.append(0)
+        self.functions = kwargs.get("functions",0)
+        '''for i in range(28):
+            self.functions.append(0)'''
 
     def getName(self): return self.name
 

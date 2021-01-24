@@ -59,23 +59,9 @@ class web:
         self.port = port
         self.cabID = cabIDxml
         self.logfile = logfile
-        functionFormat = []
-        for i in range(0,29):
-            functionFormat.append(0)
-        cabNames = ['Train1', 'Train2'] 
-        print(cabIDxml)
         for cab in cabIDxml:
-            print(cab)
-            self.cabs[cabIDxml[cab]] = trainlinkObjects.cab(name=cab,address=cabIDxml[cab])
-            '''
-            self.cabSpeeds[cabIDxml[cab]] = 0
-            self.cabDirections[cabIDxml[cab]] = 0
-            self.cabFunctions[str(cabIDxml[cab])] = []
-            for i in range(0,29):
-                self.cabFunctions[cabIDxml[cab]].append(0)
-            '''
-        print(self.cabs)
-        #self.cabFunctions['1'].append(0)
+            self.cabs[cabIDxml[cab]] = trainlinkObjects.cab(name=cab,address=cabIDxml[cab],functions=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+            
 
     def start(self, mode):
         self.mode = mode
@@ -158,8 +144,6 @@ class web:
                 self.cabs[address].setSpeed("0")
                 self.cabs[address].setDirection("0")
                 
-                #self.cabSpeeds[address] = "-1"
-                #self.cabDirections[address] = "0"
         except UnboundLocalError:
             logfile.log("Unknowen Address!", "ed")
 
@@ -175,16 +159,11 @@ class web:
         print(data)
         try:
             address = utils.obtainAddress(data["cab"], self.cabID)
-            print(address)
-            print(self.cabs[address])
             if data["state"] != -1:
                 self.cabs[address].setFunction(data["func"],data["state"])
-                #self.cabFunctions[address][data["func"]] = data["state"]
             else:
                 print("switching")
                 self.cabs[address].setFunction(data["func"],int(not self.cabs[address].getFunction(data["func"])))
-                #newState = self.cabFunctions[address]
-                #newState[data["func"]] = int(not newState[data["func"]])
             
             legacyMode = True
             if legacyMode:
