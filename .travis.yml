@@ -1,6 +1,9 @@
-arch: arm64-graviton2
-virt: lxd
-dist: focal
+arch: arm64-graviton2 # in AWS over Graviton2 CPU
+virt: lxd             # required, routes to an LXD container
+os: linux             # required for arch different than amd64
+dist: focal           # or bionic | xenial with xenial as default
+group: edge
+
 language: python
 python:
   - "3.6"      # current default Python on Travis CI
