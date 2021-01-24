@@ -108,10 +108,12 @@ class web:
             await self.unregister(websocket)
 
     async def register(self, websocket):
+        self.logfile.log("New user connected", "d")
         self.users.add(websocket)
         await websocket.send(json.dumps({"type": "config", "cabs": self.cabID,"debug": self.debug}))
 
     async def unregister(self, websocket):
+        self.logfile.log("User disconnected", "d")
         web.users.remove(websocket)
 
     async def stateEvent(self, websocket):
