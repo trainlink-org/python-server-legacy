@@ -1,6 +1,7 @@
 # TrainLink API
-[![Build Status](https://travis-ci.com/trainlink-org/python-server.svg?branch=main)](https://travis-ci.com/trainlink-org/python-server)
+[![Python CI](https://github.com/trainlink-org/python-server/actions/workflows/python-test.yml/badge.svg?branch=main)](https://github.com/trainlink-org/python-server/actions/workflows/python-test.yml)
 [![Coverage Status](https://coveralls.io/repos/github/trainlink-org/python-server/badge.svg?branch=main)](https://coveralls.io/github/trainlink-org/python-server?branch=main)
+[![CodeQL](https://github.com/trainlink-org/python-server/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/trainlink-org/python-server/actions/workflows/codeql-analysis.yml)
 
 This is an API to intergrate with a DCC++ (or DCC++ EX) BaseStation. It provides a simple way to control it over your local network, with multiple instances supported. This means if you open a website using TrainLink on two devices connected to the same server, they will be kept in sync! If you don't know anything about TrainLink, I suggest you check out [the main repo](https://github.com/trainlink-org/trainlink-api), this gives a better overview of the TrainLink system.
 
