@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 '''
 The main file for server, this is the one to run
 Copyright (C) 2020  TrainLink Organisation (matt-hu)
